@@ -1,0 +1,19 @@
+{
+  "file": "06_recibo_agua.pdf",
+  "description": "Recibo Siapa, 1 página",
+  "documentCategory": "COMPROBANTE_DOMICILIO",
+  "documentType": "RECIBO_AGUA",
+  "extractionPath": "full",
+  "pages": 1,
+  "fields": {
+    "Titular": "JOSÉ LUIS MUESTRA PRUEBA",
+    "NumeroServicio": "9876543210",
+    "Domicilio.CodigoPostal": "45010",
+    "FechaLimitePago": "25/10/2026"
+  },
+  "contains": {
+    "Emisor": "SIAPA",
+    "TotalAPagar": "389.50"
+  },
+  "counts": {}
+}

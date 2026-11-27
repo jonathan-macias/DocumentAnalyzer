@@ -1,0 +1,24 @@
+{
+  "file": "09_estado_cuenta_largo.pdf",
+  "description": "Estado de cuenta con 650 movimientos",
+  "documentCategory": "DOCUMENTO_BANCARIO",
+  "documentType": "ESTADO_CUENTA",
+  "extractionPath": "retrieval",
+  "pages": 19,
+  "fields": {
+    "Titular": "JOSÉ LUIS MUESTRA PRUEBA",
+    "RFC": "MUPJ850722K12",
+    "NumeroCuenta": "9876501234",
+    "CLABE": "012180098765012345",
+    "Periodo.FechaInicio": "01/09/2026",
+    "Periodo.FechaFin": "30/09/2026"
+  },
+  "contains": {
+    "Banco": "BANCO DEMO",
+    "SaldoInicial": "150,000.00",
+    "SaldoFinal": "634,116.38",
+    "TotalDepositos": "1,034,580.77",
+    "TotalRetiros": "550,464.39"
+  },
+  "counts": {}
+}

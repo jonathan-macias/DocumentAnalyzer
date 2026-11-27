@@ -68,11 +68,22 @@ All settings live in `app/core/config.py` and can be overridden in `.env` (see `
 | `CHUNKING_STRATEGY` | `recursive` | `recursive` or `semantic` (requires `uv sync --extra semantic`) |
 | `BM25_WEIGHT` / `VECTOR_WEIGHT` | `0.4` / `0.6` | Hybrid retrieval weights |
 
+## Sample documents
+[`samples/`](samples/README.md) contains one PDF per catalog type, plus three edge cases:
+- a scanned INE, which goes through Vision OCR;
+- a 19-page bank statement, which goes through hybrid retrieval;
+- an out-of-catalog letter, which is classified as `OTRO`.
+
+All data is **fictitious** and there are no logos. Each PDF has a golden file in `samples/expected/`. Regenerate them with:
+```powershell
+uv run python scripts/generate_samples.py
+```
+
 ## Tests
 ```powershell
-uv run pytest                 # unit tests, no network
-uv run pytest -m integration  # real OpenAI calls + sample PDF (SAMPLE_CSF_PATH)
+uv run pytest                 # unit tests + sample checks, no network
+uv run pytest -m integration  # real OpenAI calls over every sample vs. its golden file
 uv run ruff check .
 ```
 
-> ⚠️ Real documents contain personal data. `*.pdf` is git-ignored and must never be committed.
+> ⚠️ Real documents contain personal data. `*.pdf` is git-ignored (except `samples/*.pdf`) and real documents must never be committed.

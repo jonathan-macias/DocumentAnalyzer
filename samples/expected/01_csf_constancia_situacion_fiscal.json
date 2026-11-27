@@ -1,0 +1,32 @@
+{
+  "file": "01_csf_constancia_situacion_fiscal.pdf",
+  "description": "Constancia de Situación Fiscal (SAT), 3 páginas",
+  "documentCategory": "DOCUMENTO_FISCAL",
+  "documentType": "CONSTANCIA_SITUACION_FISCAL",
+  "extractionPath": "full",
+  "pages": 3,
+  "fields": {
+    "DatosEmision.Lugar": "GUADALAJARA, JALISCO",
+    "DatosEmision.Fecha": "15/10/2026",
+    "DatosIdentificacion.RFC": "PUEM900315AB1",
+    "DatosIdentificacion.CURP": "PUEM900315MJCRJR09",
+    "DatosIdentificacion.Nombre": "MARÍA FERNANDA",
+    "DatosIdentificacion.ApellidoPaterno": "PRUEBA",
+    "DatosIdentificacion.ApellidoMaterno": "EJEMPLO",
+    "DatosIdentificacion.FechaInicioOperaciones": "01/03/2015",
+    "DatosIdentificacion.EstatusPadron": "ACTIVO",
+    "DatosDomicilio.CodigoPostal": "44160",
+    "DatosDomicilio.NumeroExterior": "742",
+    "DatosDomicilio.Colonia": "AMERICANA",
+    "DatosDomicilio.Estado": "JALISCO",
+    "ActividadEconomicaMayorPorcentaje.Porcentaje": 60
+  },
+  "contains": {
+    "DatosDomicilio.Calle": "PRUEBAS",
+    "PrimerRegimen.Regimen": "SUELDOS"
+  },
+  "counts": {
+    "ActividadesEconomicas": 2,
+    "Regimenes": 2
+  }
+}

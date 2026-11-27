@@ -1,0 +1,24 @@
+{
+  "file": "08_estado_cuenta.pdf",
+  "description": "Estado de cuenta con 45 movimientos",
+  "documentCategory": "DOCUMENTO_BANCARIO",
+  "documentType": "ESTADO_CUENTA",
+  "extractionPath": "full",
+  "pages": 2,
+  "fields": {
+    "Titular": "MARÍA FERNANDA PRUEBA EJEMPLO",
+    "RFC": "PUEM900315AB1",
+    "NumeroCuenta": "0123456789",
+    "CLABE": "012345678901234567",
+    "Periodo.FechaInicio": "01/09/2026",
+    "Periodo.FechaFin": "30/09/2026"
+  },
+  "contains": {
+    "Banco": "BANCO DEMO",
+    "SaldoInicial": "25,000.00",
+    "SaldoFinal": "62,604.42",
+    "TotalDepositos": "71,849.78",
+    "TotalRetiros": "34,245.36"
+  },
+  "counts": {}
+}

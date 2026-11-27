@@ -1,0 +1,16 @@
+{
+  "file": "03_ine_escaneada.pdf",
+  "description": "La misma INE como imagen escaneada (sin capa de texto) → Vision OCR",
+  "documentCategory": "IDENTIFICACION",
+  "documentType": "INE",
+  "extractionPath": "full",
+  "pages": 1,
+  "fields": {
+    "ApellidoPaterno": "MUESTRA",
+    "CURP": "MUPJ850722HDFSRS02",
+    "ClaveElector": "MSPRJS85072209H100",
+    "Seccion": "1234"
+  },
+  "contains": {},
+  "counts": {}
+}

@@ -2,11 +2,13 @@
 
 - Unit tests do NOT call OpenAI: they use a fake LLM + deterministic embeddings.
 - A SYNTHETIC CSF-like PDF is generated (no real personal data).
-- The real sample PDF is read from SAMPLE_CSF_PATH (or the project root) and is never
-  committed: tests that need it are skipped when it is missing.
+- Committed sample documents with fictitious data live in samples/ (see
+  scripts/generate_samples.py). SAMPLE_CSF_PATH can point to another CSF (e.g. a real one,
+  which must never be committed).
 """
 
 import base64
+import json
 import os
 import warnings
 from collections.abc import Callable
@@ -31,6 +33,13 @@ from app.services.catalog_index import CatalogIndex
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 ROOT = Path(__file__).resolve().parents[1]
+SAMPLES_DIR = ROOT / "samples"
+EXPECTED_DIR = SAMPLES_DIR / "expected"
+
+
+def load_expected() -> list[dict]:
+    """Golden files written by scripts/generate_samples.py."""
+    return [json.loads(p.read_text(encoding="utf-8")) for p in sorted(EXPECTED_DIR.glob("*.json"))]
 
 SYNTHETIC_CSF_PAGES = [
     """CÉDULA DE IDENTIFICACIÓN FISCAL
@@ -78,7 +87,7 @@ def synthetic_pdf_b64(synthetic_pdf: bytes) -> str:
 
 @pytest.fixture
 def sample_csf_path() -> Path:
-    path = Path(os.getenv("SAMPLE_CSF_PATH", ROOT / "CSF APV00051386.pdf"))
+    path = Path(os.getenv("SAMPLE_CSF_PATH", SAMPLES_DIR / "01_csf_constancia_situacion_fiscal.pdf"))
     if not path.exists():
         pytest.skip("Sample PDF not available (set SAMPLE_CSF_PATH).")
     return path

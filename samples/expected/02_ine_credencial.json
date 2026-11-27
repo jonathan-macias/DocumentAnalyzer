@@ -1,0 +1,23 @@
+{
+  "file": "02_ine_credencial.pdf",
+  "description": "Credencial para votar (anverso y reverso), 1 página",
+  "documentCategory": "IDENTIFICACION",
+  "documentType": "INE",
+  "extractionPath": "full",
+  "pages": 1,
+  "fields": {
+    "Nombre": "JOSÉ LUIS",
+    "ApellidoPaterno": "MUESTRA",
+    "ApellidoMaterno": "PRUEBA",
+    "CURP": "MUPJ850722HDFSRS02",
+    "ClaveElector": "MSPRJS85072209H100",
+    "FechaNacimiento": "22/07/1985",
+    "Seccion": "1234",
+    "Sexo": "H",
+    "Domicilio.CodigoPostal": "06000"
+  },
+  "contains": {
+    "Vigencia": "2030"
+  },
+  "counts": {}
+}

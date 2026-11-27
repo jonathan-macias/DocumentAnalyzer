@@ -1,0 +1,19 @@
+{
+  "file": "05_recibo_cfe.pdf",
+  "description": "Recibo Cfe Suministrador De Servicios Básicos, 1 página",
+  "documentCategory": "COMPROBANTE_DOMICILIO",
+  "documentType": "RECIBO_CFE",
+  "extractionPath": "full",
+  "pages": 1,
+  "fields": {
+    "Titular": "MARÍA FERNANDA PRUEBA EJEMPLO",
+    "NumeroServicio": "123456789012",
+    "Domicilio.CodigoPostal": "44160",
+    "FechaLimitePago": "20/10/2026"
+  },
+  "contains": {
+    "Emisor": "CFE",
+    "TotalAPagar": "512.00"
+  },
+  "counts": {}
+}

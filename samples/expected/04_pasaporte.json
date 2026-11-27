@@ -1,0 +1,21 @@
+{
+  "file": "04_pasaporte.pdf",
+  "description": "Pasaporte mexicano (página de datos), 1 página",
+  "documentCategory": "IDENTIFICACION",
+  "documentType": "PASAPORTE",
+  "extractionPath": "full",
+  "pages": 1,
+  "fields": {
+    "Tipo": "P",
+    "ClavePais": "MEX",
+    "NumeroPasaporte": "X00012345",
+    "Apellidos": "PRUEBA CASOS",
+    "Nombres": "SOFÍA ISABEL",
+    "CURP": "PUCS921105MJCRSF08",
+    "FechaNacimiento": "05/11/1992",
+    "FechaExpedicion": "10/01/2024",
+    "FechaCaducidad": "10/01/2030"
+  },
+  "contains": {},
+  "counts": {}
+}

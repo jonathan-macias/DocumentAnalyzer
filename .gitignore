@@ -8,3 +8,5 @@ data/
 # Real documents contain personal data: NEVER commit them
 *.pdf
 tests/fixtures/private/
+# ...except the generated samples with fictitious data (scripts/generate_samples.py)
+!samples/*.pdf

@@ -1,0 +1,19 @@
+{
+  "file": "07_recibo_telefono.pdf",
+  "description": "Recibo Telefonía Demo, S.A. De C.V., 1 página",
+  "documentCategory": "COMPROBANTE_DOMICILIO",
+  "documentType": "RECIBO_TELEFONO",
+  "extractionPath": "full",
+  "pages": 1,
+  "fields": {
+    "Titular": "SOFÍA ISABEL PRUEBA CASOS",
+    "NumeroServicio": "33 1234 5678",
+    "Domicilio.CodigoPostal": "44630",
+    "FechaLimitePago": "18/10/2026"
+  },
+  "contains": {
+    "Emisor": "TELEFONIA DEMO",
+    "TotalAPagar": "599.00"
+  },
+  "counts": {}
+}
