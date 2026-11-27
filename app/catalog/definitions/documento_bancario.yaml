@@ -1,0 +1,19 @@
+category: DOCUMENTO_BANCARIO
+description: >
+  Documentos emitidos por una institución bancaria sobre cuentas del cliente.
+types:
+  - type: ESTADO_CUENTA
+    description: >
+      Estado de cuenta bancario: banco, titular, RFC, número de cuenta, CLABE, periodo,
+      fecha de corte, saldo inicial y final, depósitos, retiros y detalle de movimientos.
+    keywords: [ESTADO DE CUENTA, CLABE, SALDO INICIAL, SALDO FINAL, DEPÓSITOS, RETIROS,
+               FECHA DE CORTE, MOVIMIENTOS, BBVA, Santander, Banorte, Banamex, HSBC]
+    examples:
+      - "ESTADO DE CUENTA Periodo del ... al ... No. de Cuenta CLABE Saldo anterior Depósitos Retiros Saldo final"
+    extraction_model: EstadoCuenta
+    retrieval_queries:
+      - "Banco nombre del titular RFC domicilio"
+      - "Número de cuenta CLABE interbancaria"
+      - "Periodo del al fecha de corte"
+      - "Saldo inicial saldo anterior saldo final"
+      - "Total depósitos abonos total retiros cargos"

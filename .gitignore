@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+data/
+.pytest_cache/
+.ruff_cache/
+# Real documents contain personal data: NEVER commit them
+*.pdf
+tests/fixtures/private/

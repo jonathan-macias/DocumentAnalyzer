@@ -1,0 +1,37 @@
+# Catalog file: one category and its document types.
+# - description/keywords/examples are embedded into Chroma (semantic search for classification).
+# - extraction_model: key in app/catalog/models/__init__.py (EXTRACTION_MODELS).
+# - retrieval_queries: queries used by hybrid retrieval when extraction runs in "retrieval" mode.
+# Content values are in Spanish on purpose: they are matched against Spanish documents.
+category: DOCUMENTO_FISCAL
+description: >
+  Documentos emitidos por el SAT (Servicio de Administración Tributaria) o relacionados con
+  obligaciones fiscales del contribuyente: RFC, régimen fiscal, domicilio fiscal.
+types:
+  - type: CONSTANCIA_SITUACION_FISCAL
+    description: >
+      Constancia de Situación Fiscal (CSF) emitida por el SAT. Incluye la Cédula de
+      Identificación Fiscal con RFC, CURP, nombre o razón social, idCIF, lugar y fecha de
+      emisión, datos del domicilio fiscal, actividades económicas, regímenes y obligaciones.
+    keywords: [SAT, Hacienda, RFC, CURP, idCIF, Cédula de Identificación Fiscal, Régimen,
+               Actividades Económicas, Obligaciones, Estatus en el padrón, Constancia de Situación Fiscal]
+    examples:
+      - "CÉDULA DE IDENTIFICACIÓN FISCAL ... CONSTANCIA DE SITUACIÓN FISCAL ... Lugar y Fecha de Emisión"
+      - "Datos de Identificación del Contribuyente: RFC CURP Nombre (s) Primer Apellido Estatus en el padrón"
+    extraction_model: ConstanciaSituacionFiscal
+    postprocessor: csf
+    extra_instructions: |
+      - DatosEmision.Lugar y DatosEmision.Fecha salen del recuadro "Lugar y Fecha de Emisión"
+        (p. ej. "TEPIC , NAYARIT A 21 DE ABRIL DE 2026" → Lugar "TEPIC, NAYARIT", Fecha "21/04/2026").
+      - Nombre = "Nombre (s)", ApellidoPaterno = "Primer Apellido", ApellidoMaterno = "Segundo Apellido".
+      - Calle = "Nombre de Vialidad"; Colonia = "Nombre de la Colonia"; Localidad = "Nombre de la Localidad";
+        Municipio = "Nombre del Municipio o Demarcación Territorial"; Estado = "Nombre de la Entidad Federativa".
+      - Si una etiqueta aparece sin valor, el campo va vacío "".
+    retrieval_queries:
+      - "Lugar y Fecha de Emisión de la constancia"
+      - "Datos de Identificación del Contribuyente RFC CURP Nombre Primer Apellido Segundo Apellido"
+      - "Fecha inicio de operaciones Estatus en el padrón Fecha de último cambio de estado Nombre Comercial"
+      - "Datos del domicilio registrado Código Postal Tipo de Vialidad Nombre de Vialidad Número Exterior Interior"
+      - "Colonia Localidad Municipio Entidad Federativa Entre Calle Y Calle"
+      - "Actividades Económicas Orden Porcentaje Fecha Inicio Fecha Fin"
+      - "Regímenes Régimen Fecha Inicio Fecha Fin"

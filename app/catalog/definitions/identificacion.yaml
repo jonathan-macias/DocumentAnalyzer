@@ -1,0 +1,37 @@
+category: IDENTIFICACION
+description: >
+  Identificaciones oficiales con fotografía de una persona física: credencial para votar
+  (INE/IFE) y pasaporte.
+types:
+  - type: INE
+    description: >
+      Credencial para votar emitida por el Instituto Nacional Electoral (INE) o el antiguo IFE.
+      Contiene nombre, domicilio, clave de elector, CURP, año de registro, sección, vigencia,
+      fotografía y firma; el reverso tiene código MRZ y QR.
+    keywords: [INSTITUTO NACIONAL ELECTORAL, CREDENCIAL PARA VOTAR, CLAVE DE ELECTOR, SECCIÓN,
+               VIGENCIA, AÑO DE REGISTRO, IFE, INE, MÉXICO]
+    examples:
+      - "INSTITUTO NACIONAL ELECTORAL CREDENCIAL PARA VOTAR NOMBRE DOMICILIO CLAVE DE ELECTOR CURP"
+    extraction_model: CredencialINE
+    extra_instructions: |
+      - La credencial muestra el nombre en líneas: primer apellido, segundo apellido y nombre(s).
+    retrieval_queries:
+      - "NOMBRE apellido paterno materno"
+      - "DOMICILIO calle colonia código postal municipio estado"
+      - "CLAVE DE ELECTOR CURP AÑO DE REGISTRO SECCIÓN"
+      - "FECHA DE NACIMIENTO SEXO EMISIÓN VIGENCIA"
+  - type: PASAPORTE
+    description: >
+      Pasaporte mexicano emitido por la Secretaría de Relaciones Exteriores (SRE). Incluye tipo,
+      clave de país, número de pasaporte, apellidos, nombres, nacionalidad, fechas de
+      nacimiento, expedición y caducidad, y zona de lectura mecánica (MRZ).
+    keywords: [PASAPORTE, PASSPORT, ESTADOS UNIDOS MEXICANOS, SECRETARÍA DE RELACIONES EXTERIORES,
+               MEX, Nacionalidad, Fecha de caducidad, MRZ]
+    examples:
+      - "PASAPORTE PASSPORT Tipo/Type P Clave del país/Code of issuing state MEX Pasaporte No."
+    extraction_model: Pasaporte
+    retrieval_queries:
+      - "Pasaporte No. Tipo Clave del país"
+      - "Apellidos Nombres Nacionalidad CURP Sexo"
+      - "Fecha de nacimiento Lugar de nacimiento"
+      - "Fecha de expedición Fecha de caducidad Autoridad"

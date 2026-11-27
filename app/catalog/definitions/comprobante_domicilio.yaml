@@ -1,0 +1,38 @@
+category: COMPROBANTE_DOMICILIO
+description: >
+  Recibos de servicios domésticos que acreditan el domicilio de una persona: luz, agua,
+  teléfono fijo o internet.
+types:
+  - type: RECIBO_CFE
+    description: >
+      Recibo de luz de la Comisión Federal de Electricidad (CFE): número de servicio, tarifa,
+      periodo facturado, consumo en kWh, total a pagar, fecha límite de pago y domicilio.
+    keywords: [CFE, Comisión Federal de Electricidad, SUMINISTRADOR DE SERVICIOS BÁSICOS, kWh,
+               NO. DE SERVICIO, TARIFA, PERIODO FACTURADO, LÍMITE DE PAGO]
+    examples:
+      - "CFE Suministrador de Servicios Básicos TOTAL A PAGAR NO. DE SERVICIO PERIODO FACTURADO kWh"
+    extraction_model: ComprobanteDomicilio
+    retrieval_queries: &recibo_queries
+      - "Titular nombre del cliente"
+      - "Domicilio dirección colonia código postal municipio estado"
+      - "Número de servicio cuenta contrato"
+      - "Periodo facturado fecha de emisión fecha límite de pago"
+      - "Total a pagar importe"
+  - type: RECIBO_AGUA
+    description: >
+      Recibo de agua potable emitido por un organismo operador municipal (SIAPA, SACMEX,
+      CESPT, JMAS, etc.): número de cuenta o contrato, consumo en m3, periodo y total a pagar.
+    keywords: [agua potable, drenaje, alcantarillado, m3, consumo, organismo operador, SIAPA, SACMEX]
+    examples:
+      - "Servicio de agua potable y alcantarillado No. de cuenta Consumo m3 Total a pagar"
+    extraction_model: ComprobanteDomicilio
+    retrieval_queries: *recibo_queries
+  - type: RECIBO_TELEFONO
+    description: >
+      Factura de teléfono fijo, internet o TV de paga (Telmex, Izzi, Totalplay, Megacable):
+      número telefónico o de cuenta, periodo, total a pagar y domicilio.
+    keywords: [Telmex, Izzi, Totalplay, Megacable, teléfono, internet, Infinitum, renta mensual]
+    examples:
+      - "TELMEX Teléfono Infinitum Total a pagar Pagar antes de Periodo de facturación"
+    extraction_model: ComprobanteDomicilio
+    retrieval_queries: *recibo_queries

@@ -1,0 +1,62 @@
+[project]
+name = "document-analyze"
+version = "0.1.0"
+description = "KYC document analysis API with FastAPI, LangChain, LangGraph and OpenAI"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fastapi>=0.129.0",
+    "uvicorn[standard]>=0.40.0",
+    "pydantic>=2.12.5",
+    "pydantic-settings>=2.12.0",
+    "httpx>=0.28.0",
+    "python-dotenv>=1.0.0",
+    "pyyaml>=6.0",
+    "pymupdf>=1.26.0",
+    "tiktoken>=0.12.0",
+    "langchain>=1.2.7",
+    "langchain-core>=1.2.7",
+    "langchain-openai>=1.1.7",
+    "langchain-community>=0.4.1",
+    "langchain-classic>=1.0.1",
+    "langchain-text-splitters>=1.1.0",
+    "langchain-chroma>=1.1.0",
+    "chromadb>=1.4.1",
+    "rank-bm25>=0.2.2",
+    "langgraph>=1.0.7",
+    "langsmith>=0.6.6",
+]
+
+[project.optional-dependencies]
+semantic = ["langchain-experimental>=0.4.0"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.25.0",
+    "ruff>=0.8.0",
+]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+filterwarnings = [
+    "ignore:.*langchain-community.*:DeprecationWarning",
+    "ignore:.*langchain-experimental.*:DeprecationWarning",
+]
+markers = [
+    "integration: tests that call OpenAI (require OPENAI_API_KEY)",
+]
+addopts = "-m 'not integration'"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]
