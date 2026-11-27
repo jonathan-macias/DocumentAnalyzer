@@ -52,6 +52,11 @@ Swagger UI: http://127.0.0.1:8000/docs
 | GET | `/graph` | Mermaid diagram of the graph |
 | GET | `/health` | Liveness probe |
 
+## Authentication
+- **`/Document/*` routes** require the `X-API-Key` header when `API_KEY` is set. It is mandatory in production; in Swagger use **Authorize**.
+- **Public routes:** `/health`, `/catalog`, `/graph` and `/docs`.
+- **`documentUrl`** must point to a public host. Loopback, private LAN and link-local addresses are rejected (SSRF guard).
+
 ## HTTP status codes
 - **Invalid body → 422.** This covers a missing source, both sources at once, a non-http URL, or a threshold out of range.
 - **Business errors → 200** with `success=false` and `errorMessage`. This covers a failed download, a corrupted PDF, an unsupported format, or an LLM error.
@@ -77,6 +82,29 @@ All settings live in `app/core/config.py` and can be overridden in `.env` (see `
 All data is **fictitious** and there are no logos. Each PDF has a golden file in `samples/expected/`. Regenerate them with:
 ```powershell
 uv run python scripts/generate_samples.py
+```
+
+## Deployment
+Production runs on an ARM64 single-board computer (Orange Pi 3B) with Docker:
+
+```
+feature/* → PR → main (CI) → PR → PROD → GitHub builds the ARM64 image → GHCR
+          → self-hosted runner on the Pi → docker compose → /health check → auto rollback on failure
+```
+
+| File | Purpose |
+|---|---|
+| `Dockerfile` | Multi-stage image (uv), non-root user, healthcheck |
+| `.github/workflows/ci.yml` | Lint + offline tests; Docker build validation on PRs |
+| `.github/workflows/deploy.yml` | Push to `PROD` → tests → ARM64 build → deploy on the Pi; manual rollback with `image_tag` |
+| `deploy/docker-compose.prod.yml` | Production service, bound to `127.0.0.1:8090`, published through Cloudflare Tunnel |
+| `deploy/deploy.sh` | Pull → start → healthcheck → rollback to the previous tag if it fails |
+| `deploy/.env.example` | Template for the server `.env`; the secrets live only there, never in GitHub |
+
+Run the image locally:
+```powershell
+docker build -t document-analyzer:local .
+docker run --rm -p 8000:8000 -e OPENAI_API_KEY -e API_KEY=dev document-analyzer:local
 ```
 
 ## Tests

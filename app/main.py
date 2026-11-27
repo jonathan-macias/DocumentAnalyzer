@@ -32,6 +32,10 @@ logger = logging.getLogger(__name__)
 async def lifespan(app: FastAPI):
     settings = get_settings()
     setup_logging(settings.log_level)
+    if settings.is_production and not settings.api_key:
+        raise RuntimeError("API_KEY is required when APP_ENV=production.")
+    if not settings.api_key:
+        logger.warning("API_KEY is not set: /Document/* routes are NOT authenticated.")
 
     embeddings = get_embeddings(settings)
     registry = CatalogRegistry.load()

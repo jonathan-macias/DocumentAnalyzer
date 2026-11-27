@@ -23,6 +23,13 @@ class Settings(BaseSettings):
     app_env: Literal["development", "production", "test"] = "development"
     log_level: str = "INFO"
 
+    # --- Security ---
+    # Required in production: clients send it in the X-API-Key header for /Document/* routes.
+    # Empty in development → authentication disabled.
+    api_key: str | None = None
+    # documentUrl pointing to loopback/private/link-local addresses is rejected (SSRF guard).
+    allow_private_urls: bool = False
+
     # --- OpenAI ---
     openai_api_key: str = Field(..., description="OpenAI API key (required)")
     llm_model: str = "gpt-6-luna"

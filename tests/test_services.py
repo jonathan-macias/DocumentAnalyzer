@@ -4,7 +4,13 @@ import pytest
 
 from app.core.logging import mask_url
 from app.services.chunking import build_chunks, is_heading, split_sections
-from app.services.document_loader import DocumentLoadError, decode_base64, sniff_mime
+from app.services.document_loader import (
+    DocumentLoadError,
+    assert_public_host,
+    decode_base64,
+    download,
+    sniff_mime,
+)
 from app.services.pdf_parser import parse_document
 from app.services.postprocess import normalize_date, run_postprocess
 from app.services.retrieval import bm25_preprocess
@@ -46,6 +52,31 @@ def test_sniff_mime():
     assert sniff_mime(b"\x89PNG\r\n\x1a\nxxxx") == "image/png"
     assert sniff_mime(b"\xff\xd8\xff\xe0") == "image/jpeg"
     assert sniff_mime(b"GIF89a") is None
+
+
+@pytest.mark.parametrize(
+    "url",
+    [
+        "http://127.0.0.1:5080/x.pdf",
+        "http://localhost/x.pdf",
+        "http://192.168.0.1/x.pdf",
+        "http://10.0.0.5/x.pdf",
+        "http://169.254.169.254/latest/meta-data",
+        "http://[::1]/x.pdf",
+    ],
+)
+def test_ssrf_guard_rejects_non_public_hosts(url):
+    with pytest.raises(DocumentLoadError, match="red privada o local"):
+        assert_public_host(url)
+
+
+def test_ssrf_guard_accepts_public_ip():
+    assert_public_host("https://8.8.8.8/doc.pdf")  # IP literal: no DNS lookup needed
+
+
+async def test_download_blocks_private_url_before_connecting():
+    with pytest.raises(DocumentLoadError, match="red privada o local"):
+        await download("http://127.0.0.1:5080/health", 5 * MB, timeout=2)
 
 
 def test_mask_url_hides_sas_token():

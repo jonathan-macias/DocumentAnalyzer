@@ -1,11 +1,14 @@
 from typing import Any
 
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException, Request
 
+from app.api.security import require_api_key
 from app.graph.analyzer import DocumentAnalyzer
 from app.schemas.analyze import AnalyzeRequest, AnalyzeResponse
 
-router = APIRouter(prefix="/Document", tags=["Document"])
+# Every /Document route requires the API key: analyzing spends OpenAI credits and
+# stored results/traces contain the extracted personal data.
+router = APIRouter(prefix="/Document", tags=["Document"], dependencies=[Depends(require_api_key)])
 
 
 def _analyzer(request: Request) -> DocumentAnalyzer:
