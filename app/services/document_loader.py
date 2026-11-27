@@ -4,11 +4,15 @@ Documents arrive over the network or embedded in the JSON body, so everything wo
 in-memory bytes instead of file paths.
 """
 
+import asyncio
 import base64
 import binascii
+import ipaddress
 import logging
 import re
+import socket
 from dataclasses import dataclass
+from urllib.parse import urlsplit
 
 import httpx
 
@@ -74,12 +78,45 @@ def decode_base64(payload: str, max_bytes: int) -> LoadedDocument:
     return LoadedDocument(content=data, mime_type=mime, source="base64")
 
 
-async def download(url: str, max_bytes: int, timeout: float) -> LoadedDocument:
+def assert_public_host(url: str) -> None:
+    """SSRF guard: reject URLs whose host resolves to a non-public address.
+
+    Blocks loopback (127.0.0.1, localhost), private LAN ranges (192.168.x.x, 10.x, 172.16/12),
+    link-local (169.254.x.x, cloud metadata) and other reserved ranges, so a caller cannot use
+    the server to probe the network it runs in.
+    """
+    host = urlsplit(url).hostname
+    if not host:
+        raise DocumentLoadError("La URL del documento no es válida.")
+    try:
+        infos = socket.getaddrinfo(host, None)
+    except socket.gaierror as exc:
+        raise DocumentLoadError("No se pudo resolver el host del documento.") from exc
+    for info in infos:
+        ip = ipaddress.ip_address(info[4][0])
+        if not ip.is_global:
+            raise DocumentLoadError("La URL apunta a una red privada o local; no está permitida.")
+
+
+async def download(
+    url: str, max_bytes: int, timeout: float, allow_private: bool = False
+) -> LoadedDocument:
     if not url.lower().startswith(("http://", "https://")):
         raise DocumentLoadError("Solo se permiten URLs http/https.")
+
+    async def check_request(request: httpx.Request) -> None:
+        # Runs for the first request AND for every redirect hop
+        if not allow_private:
+            await asyncio.to_thread(assert_public_host, str(request.url))
+
     logger.info("Downloading document from %s", mask_url(url))
     try:
-        async with httpx.AsyncClient(timeout=timeout, follow_redirects=True) as client:
+        async with httpx.AsyncClient(
+            timeout=timeout,
+            follow_redirects=True,
+            max_redirects=5,
+            event_hooks={"request": [check_request]},
+        ) as client:
             async with client.stream("GET", url) as resp:
                 if resp.status_code >= 400:
                     raise DocumentLoadError(

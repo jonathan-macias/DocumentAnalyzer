@@ -185,7 +185,10 @@ class AnalyzeNodes:
             res.base64_payload = None  # free memory
         else:
             loaded = await download(
-                url, self.s.max_document_bytes, self.s.download_timeout_seconds
+                url,
+                self.s.max_document_bytes,
+                self.s.download_timeout_seconds,
+                allow_private=self.s.allow_private_urls,
             )
         res.content = loaded.content
         return {"mime_type": loaded.mime_type, "source": loaded.source}

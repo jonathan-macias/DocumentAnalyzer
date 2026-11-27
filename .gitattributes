@@ -1,0 +1,6 @@
+# Shell scripts and YAML must keep LF line endings (bash on the Orange Pi fails with CRLF)
+*.sh        text eol=lf
+*.yml       text eol=lf
+*.yaml      text eol=lf
+Dockerfile  text eol=lf
+*.pdf       binary

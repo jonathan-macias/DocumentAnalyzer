@@ -1,0 +1,26 @@
+# Document Analyze API on the Orange Pi. Used by deploy/deploy.sh from /opt/document-analyzer.
+# IMAGE_TAG / IMAGE_NAMESPACE and the secrets (OPENAI_API_KEY, API_KEY) come from
+# /opt/document-analyzer/.env. Cloudflare Tunnel publishes 127.0.0.1:8090 →
+# https://docanalyzer.radiant0001.xyz
+name: document-analyzer
+
+services:
+  api:
+    image: ${IMAGE_NAMESPACE:-ghcr.io/jonathan-macias}/document-analyzer:${IMAGE_TAG:?IMAGE_TAG no definido en .env}
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      APP_ENV: production
+    ports:
+      - "127.0.0.1:8090:8000"
+    volumes:
+      - chroma:/app/data   # persistent catalog index (re-embedded only when the YAML catalog changes)
+    mem_limit: 768m
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  chroma:
